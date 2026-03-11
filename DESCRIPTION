@@ -1,11 +1,16 @@
 Package: forestFragR
-Title: What the Package Does (One Line, Title Case)
+Title: Functions to analyze forest landscape metrics
 Version: 0.0.0.9000
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+    person("Patience", "Birungi", , "birungipatience11@gmail.com", role = c("aut", "cre"))
+Description: This package provides functions to calculate landscape metrics for forest patches using raster data.
+License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
+Imports: 
+    landscapemetrics,
+    terra
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
