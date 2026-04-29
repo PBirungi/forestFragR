@@ -1,0 +1,151 @@
+---
+title: "Forest Fragmentation Analysis Workflow"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Forest Fragmentation Analysis Workflow}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+Forest fragmentation is a major driver of biodiversity loss,
+affecting habitat structure, ecosystem processes, and species
+movement. Understanding how forest patches are distributed and
+connected across landscapes is essential for ecological analysis
+and conservation planning.
+
+The `forestFragR` package provides a workflow for analyzing forest
+fragmentation using raster-based land cover data. It includes tools
+for preprocessing data, identifying forest patches, computing
+landscape metrics, and assessing spatial connectivity.
+
+This vignette demonstrates a complete workflow using both real-world
+data and a simplified reproducible example.
+
+---
+
+## Load Packages
+
+```{r setup, message=FALSE, warning=FALSE}
+library(terra)
+library(forestFragR)
+```
+
+## Study Area and Data
+
+This analysis is based on a real-world dataset consisting of a
+university forest area of interest (AOI) and land cover data from
+the ESA WorldCover dataset.
+
+The AOI defines the spatial boundary of the study, while the land
+cover raster provides classification values used to extract forest
+areas.
+
+```{r real-data, eval=FALSE}
+# Load AOI (vector data)
+aoi <- terra::vect("data/university_forest.gpkg")
+
+# Load ESA land cover raster
+landcover <- terra::rast("data/esa_landcover.tif")
+
+# Prepare and align datasets
+data_prepared <- prepare_data(landcover, aoi)
+
+raster <- data_prepared$raster
+aoi <- data_prepared$aoi
+
+```
+
+## Example Data (Reproducible)
+
+To demonstrate the workflow in a reproducible way, we use a small
+simulated raster dataset and a simple area of interest (AOI).
+
+```{r example-data}
+# Create raster
+raster <- rast(nrows = 10, ncols = 10)
+values(raster) <- sample(c(10, 20, 30), 100, replace = TRUE)
+
+# Create a simple AOI (extent of raster)
+aoi <- as.polygons(ext(raster))
+
+plot(raster, main = "Simulated Land Cover")
+plot(aoi, add = TRUE, border = "red")
+```
+
+In this example, the value 10 represents forest, while other values
+represent non-forest classes.
+
+
+## Preprocessing Forest Data
+
+The land cover raster is converted into a binary forest/non-forest
+map by extracting the forest class.
+
+```{r preprocessing}
+forest <- preprocess_forest(raster, forest_class = 10)
+
+plot(forest, main = "Binary Forest Map (1 = forest, 0 = non-forest)")
+```
+
+This step simplifies the land cover data and prepares it for
+fragmentation analysis.
+
+
+## Patch Identification
+
+Forest patches are defined as contiguous groups of forest cells.
+Identifying these patches is a key step in fragmentation analysis,
+as it provides the spatial units for all subsequent landscape metrics.
+
+```{r patches}
+patches <- analyze_patches(forest)
+
+plot(patches$patches, main = "Forest Patches")
+```
+
+Each patch is assigned a unique identifier and described using
+multiple landscape metrics, including area, perimeter, shape complexity and core habitat.
+
+```{r patch-metrics}
+head(patches$patch_sizes)
+```
+
+These metrics allow for quantitative assessment of fragmentation,
+supporting comparisons of patch size distribution, edge effects,
+and habitat quality across the landscape.
+
+## Connectivity Analysis
+
+Connectivity between forest patches is assessed using nearest
+neighbor distances. This metric quantifies how isolated each patch
+is from its closest neighboring patch.
+
+```{r connectivity}
+conn <- connectivity_analysis(patches)
+
+conn$nn_distance
+```
+
+Lower nearest neighbor distances indicate higher connectivity,
+while larger distances suggest greater isolation.
+
+
+## Visualizing Patch Isolation
+
+Patch isolation is visualized by mapping nearest neighbor distances
+onto the raster, allowing spatial interpretation of connectivity.
+
+```{r visualization}
+nn_raster <- visualize_patch_isolation(conn)
+
+```
+
+Higher values indicate more isolated patches, while lower values
+represent better-connected forest areas.
+
+
+
+
+
+
+

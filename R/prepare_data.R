@@ -1,93 +1,74 @@
 #' Prepare and Validate Spatial Data
 #'
-#'Loads land cover raster and AOI data, checks coordinate reference systems (CRS),
-#' ensures consistency between datasets, and reprojects them to an appropriate
-#' projected coordinate system (automatically selecting a UTM zone if needed).
+#' Loads land cover raster and AOI data, checks CRS, reprojects if needed,
+#' and clips/masks raster to the AOI.
 #'
-#' @param landcover_path Character. File path to the land cover raster.
-#' @param aoi_path Character. File path to the AOI vector (e.g., shapefile).
+#' @param raster SpatRaster object (landcover data)
+#' @param aoi SpatVector object (area of interest)
 #'
 #' @returns A list containing:
 #' \itemize{
-#'   \item raster: Processed SpatRaster
+#'   \item raster: Processed and clipped SpatRaster
 #'   \item aoi: Processed SpatVector
 #'   \item crs: CRS used for analysis
 #' }
 #'
-#' @details
-#' This function ensures that:
-#' \itemize{
-#'   \item Raster and AOI share the same CRS
-#'   \item Data is in a projected CRS (meters)
-#'   \item If input is geographic (e.g., WGS84), an appropriate UTM zone is selected automatically
-#' }
-#'
-#' @examples
-#' \dontrun{
-#' data <- prepare_data("data/landcover.tif", "data/aoi.shp")
-#' plot(data$raster)
-#' plot(data$aoi, add = TRUE)
-#' }
-#'
 #' @export
-#'
-#'
-prepare_data <- function(landcover_path, aoi_path) {
 
+prepare_data <- function(raster, aoi) {
 
-  # Load data
-  raster <- terra::rast(landcover_path)
-  aoi <- terra::vect(aoi_path)
-
-
-  # Check CRS match
-  raster_crs <- terra::crs(raster)
-  aoi_crs <- terra::crs(aoi)
-
-  if (raster_crs != aoi_crs) {
-    message("CRS mismatch detected. Reprojecting AOI to match raster...")
-    aoi <- terra::project(aoi, raster_crs)
+  # Input checks
+  if (!inherits(raster, "SpatRaster")) {
+    stop("raster must be a SpatRaster.")
   }
 
+  if (!inherits(aoi, "SpatVector")) {
+    stop("aoi must be a SpatVector.")
+  }
 
-  # Check if CRS is geographic
+  # CRS check
+  if (terra::crs(raster) != terra::crs(aoi)) {
+    message("CRS mismatch detected. Reprojecting AOI...")
+    aoi <- terra::project(aoi, terra::crs(raster))
+  }
+
+  # Project to UTM if geographic
   if (terra::is.lonlat(raster)) {
 
     message("Geographic CRS detected. Determining appropriate UTM zone...")
 
-    # Get AOI centroid
     centroid <- terra::centroids(aoi)
     coords <- terra::crds(centroid)
 
     lon <- coords[1,1]
     lat <- coords[1,2]
 
-    # Compute UTM zone
     zone <- floor((lon + 180) / 6) + 1
 
-    # Determine EPSG
-    if (lat >= 0) {
-      epsg <- paste0("EPSG:326", sprintf("%02d", zone))  # Northern hemisphere
+    epsg <- if (lat >= 0) {
+      paste0("EPSG:326", sprintf("%02d", zone))
     } else {
-      epsg <- paste0("EPSG:327", sprintf("%02d", zone))  # Southern hemisphere
+      paste0("EPSG:327", sprintf("%02d", zone))
     }
 
-    message(paste("Projecting to UTM Zone", zone, "(", epsg, ")"))
+    message("Projecting to ", epsg)
 
-    # Reproject both
     raster <- terra::project(raster, epsg)
     aoi <- terra::project(aoi, epsg)
-
-  } else {
-    message("Data already in projected CRS. No reprojection needed.")
-    epsg <- raster_crs
   }
 
+  # --- Check spatial overlap ---
+  if (!terra::relate(terra::ext(raster), terra::ext(aoi), "intersects")) {
+    stop("Raster and AOI do not overlap.")
+  }
 
-  # Return clean data
+  # Crop and mask
+  raster <- terra::crop(raster, aoi)
+  raster <- terra::mask(raster, aoi)
+
   return(list(
     raster = raster,
     aoi = aoi,
-    crs = epsg
+    crs = terra::crs(raster)
   ))
 }
