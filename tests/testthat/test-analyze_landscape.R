@@ -1,7 +1,8 @@
 library(testthat)
-library(terra)
+
 
 test_that("analyze_landscape computes metrics correctly", {
+  library(terra)
 
 
 
