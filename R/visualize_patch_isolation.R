@@ -52,7 +52,7 @@ visualize_patch_isolation <- function(patches_list,
 
   # Plot
   p <- ggplot(df, aes(x = .data$x, y = .data$y, fill = .data$nn_distance)) +
-    geom_raster() +
+    geom_tile() +
     scale_fill_viridis_c(name = "NN Distance") +
     coord_equal() +
     labs(title = main_title, x = "X", y = "Y") +
