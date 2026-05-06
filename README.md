@@ -24,13 +24,12 @@ devtools::install_github("PBirungi/forestFragR")
 
 ## How it works
 The user provides only two inputs:
-A land cover raster (e.g., ESA WorldCover .tif)
-An Area of Interest (AOI) as a vector file (.shp, .gpkg, etc.)
+
+- A land cover raster (e.g., ESA WorldCover `.tif`)
+- An Area of Interest (AOI) as a vector file (`.shp`, `.gpkg`, etc.)
 
 
-Workflow Overview
-
-``` r
+### Workflow Overview
 
 | Function | What it does | Output |
 |----------|-------------|--------|
@@ -40,7 +39,7 @@ Workflow Overview
 | `analyze_landscape()` | Computes landscape-level metrics (NP, TA, MPS, LPI, fragmentation and edge metrics) | Data frame of landscape metrics |
 | `connectivity_analysis()` | Calculates distances between patch centroids, identifies nearest neighbors, and classifies patches as connected or isolated | List with nearest-neighbor distances and connectivity table |
 | `visualize_patch_isolation()` | Generates a raster and heatmap visualization of patch isolation (nearest-neighbor distance) | Raster visualization of patch connectivity |
-``` 
+ 
 
 ## Example 
 
