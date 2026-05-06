@@ -31,6 +31,7 @@ An Area of Interest (AOI) as a vector file (.shp, .gpkg, etc.)
 Workflow Overview
 
 ``` r
+
 | Function | What it does | Output |
 |----------|-------------|--------|
 | `prepare_data()` | Validates inputs, checks CRS, reprojects if needed, and clips/masks raster to AOI | List with processed raster, AOI, and CRS |
