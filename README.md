@@ -63,7 +63,7 @@ forest <- preprocess_forest(prepared$raster, forest_class = 10)
 patch_data <- analyze_patches(forest)
 ```
 
-## Patch Metrics Summary
+### Patch Metrics Summary
 
 
 | patch_id | area        | perimeter   | shape_index | core_area    | core_area_index |
@@ -82,7 +82,7 @@ The landscape is composed of forest patches that vary greatly in size and shape,
 landscape_metrics <- analyze_landscape(patch_data)
 ```
 
-## Landscape Metrics Summary with Interpretation
+### Landscape Metrics Summary with Interpretation
 
 
 | Metric | Value | Interpretation |
