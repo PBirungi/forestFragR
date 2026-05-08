@@ -70,6 +70,21 @@ connectivity <- connectivity_analysis(patch_data)
 # Visualization
 visualize_patch_isolation(connectivity)
 ```
+The example below shows a patch isolation map generated using `forestFragR`. This example uses ESA WorldCover land cover data clipped to the University Forest AOI in Würzburg, Germany.
 
-The function returns a tibble containing the number of patches for each land-cover class in the raster.
+<p align="center">
+  <img src="man/figures/patch_isolation_map.png" width="700"/>
+</p>
 
+<p align="center">
+  <em>Patch isolation map.</em>
+</p>
+
+
+The patch isolation map highlights the spatial variation in forest connectivity across the study area. Patches shown in darker colors have shorter nearest-neighbor distances and are therefore more connected to surrounding forest patches. In contrast, patches displayed in lighter colors are more isolated, indicating greater distances to the nearest neighboring forest patch.
+
+The highly isolated patch in the northern section of the study area suggests stronger forest fragmentation in that region. Increased isolation can reduce ecological connectivity, making it more difficult for species to move between habitat patches.
+
+More connected patches, particularly in the central and southern portions of the landscape, may provide better habitat continuity and support higher biodiversity by facilitating species movement and maintaining ecological processes. 
+
+Overall, the results demonstrate how spatial metrics derived from remote sensing can help identify fragmentation hotspots and areas that may require conservation or restoration efforts.
