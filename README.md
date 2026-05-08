@@ -47,7 +47,6 @@ This example uses ESA WorldCover land cover raster clipped to the University For
 
 
 ```{r example}
-
 library(forestFragR)
 
 # Load data
@@ -63,6 +62,7 @@ forest <- preprocess_forest(prepared$raster, forest_class = 10)
 # Patch analysis
 patch_data <- analyze_patches(forest)
 
+print(head(patch_data$patch_sizes))
 ```
 
 ### Patch Metrics Summary
@@ -82,10 +82,10 @@ The landscape is composed of forest patches that vary greatly in size and shape,
 
 
 ```{r example1}
-
 # Landscape metrics
 landscape_metrics <- analyze_landscape(patch_data)
 
+print(landscape_metrics)
 ```
 
 ### Landscape Metrics Summary with Interpretation
@@ -104,14 +104,13 @@ landscape_metrics <- analyze_landscape(patch_data)
 | PCI (Patch Cohesion Index) | 0.9927442 | Very high connectivity and structural cohesion |
 
 
-```{r example}
 
+```{r example}
 # Connectivity analysis
 connectivity <- connectivity_analysis(patch_data)
 
 # Visualization
 visualize_patch_isolation(connectivity)
-
 ```
 
 This is the resulting patch isolation map
