@@ -47,6 +47,7 @@ This example uses ESA WorldCover land cover raster clipped to the University For
 
 
 ```{r example}
+
 library(forestFragR)
 
 # Load data
@@ -61,6 +62,7 @@ forest <- preprocess_forest(prepared$raster, forest_class = 10)
 
 # Patch analysis
 patch_data <- analyze_patches(forest)
+
 ```
 
 ### Patch Metrics Summary
@@ -77,9 +79,13 @@ patch_data <- analyze_patches(forest)
 
 The landscape is composed of forest patches that vary greatly in size and shape, ranging from very small fragments (~300 m²) to large continuous areas (>12 million m²). Most patches are irregular in shape, indicating fragmented landscapes with strong edge effects. While larger patches (e.g., Patch 9) retain substantial core habitat (~82%), smaller patches (e.g., Patch 11) have no core area and are highly vulnerable to degradation.
 
+
+
 ```{r example1}
+
 # Landscape metrics
 landscape_metrics <- analyze_landscape(patch_data)
+
 ```
 
 ### Landscape Metrics Summary with Interpretation
@@ -99,11 +105,13 @@ landscape_metrics <- analyze_landscape(patch_data)
 
 
 ```{r example}
+
 # Connectivity analysis
 connectivity <- connectivity_analysis(patch_data)
 
 # Visualization
 visualize_patch_isolation(connectivity)
+
 ```
 
 This is the resulting patch isolation map
