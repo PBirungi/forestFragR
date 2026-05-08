@@ -65,7 +65,7 @@ patch_data <- analyze_patches(forest)
 print(head(patch_data$patch_sizes))
 ```
 
-### Patch Metrics Summary
+Patch Metrics Summary
 
 
 | patch_id | area        | perimeter   | shape_index | core_area    | core_area_index |
@@ -88,7 +88,7 @@ landscape_metrics <- analyze_landscape(patch_data)
 print(landscape_metrics)
 ```
 
-### Landscape Metrics Summary with Interpretation
+Landscape Metrics Summary with Interpretation
 
 
 | Metric | Value | Interpretation |
