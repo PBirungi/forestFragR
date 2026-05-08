@@ -43,7 +43,8 @@ The user provides only two inputs:
 
 ## Example 
 
-This is a basic example which shows you how to calculate the number of patches (NP) in a raster landscape.
+This example uses ESA WorldCover land cover raster clipped to the University Forest AOI in Würzburg to analyze the forest fragmentation.
+
 
 ```{r example}
 library(forestFragR)
@@ -70,14 +71,10 @@ connectivity <- connectivity_analysis(patch_data)
 # Visualization
 visualize_patch_isolation(connectivity)
 ```
-The example below shows a patch isolation map generated using `forestFragR`. This example uses ESA WorldCover land cover data clipped to the University Forest AOI in Würzburg, Germany.
 
+The patch isolation map. 
 <p align="center">
   <img src="man/figures/patch_isolation_map.png" width="700"/>
-</p>
-
-<p align="center">
-  <em>Patch isolation map.</em>
 </p>
 
 
