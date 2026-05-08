@@ -43,7 +43,7 @@ The user provides only two inputs:
 
 ## Example 
 
-This example uses ESA WorldCover land cover raster clipped to the University Forest AOI in Würzburg to analyze the forest fragmentation.
+This example uses ESA WorldCover land cover raster clipped to the University Forest AOI in Würzburg to analyze the forest fragmentation
 
 
 ```{r example}
@@ -72,7 +72,8 @@ connectivity <- connectivity_analysis(patch_data)
 visualize_patch_isolation(connectivity)
 ```
 
-The patch isolation map. 
+This is the resulting patch isolation map
+
 <p align="center">
   <img src="man/figures/patch_isolation_map.png" width="700"/>
 </p>
