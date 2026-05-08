@@ -61,10 +61,44 @@ forest <- preprocess_forest(prepared$raster, forest_class = 10)
 
 # Patch analysis
 patch_data <- analyze_patches(forest)
+```
 
+## Patch Metrics Summary
+
+
+| patch_id | area        | perimeter   | shape_index | core_area    | core_area_index |
+|----------|------------:|------------:|------------:|-------------:|----------------:|
+| 1        | 3.516450e+04 | 1110.1630   | 1.670050    | 11548.38     | 0.3284102       |
+| 2        | 8.745267e+04 | 2298.5065   | 2.192574    | 38555.15     | 0.4408688       |
+| 3        | 1.974344e+06 | 12884.1454  | 2.586659    | 1643283.28   | 0.8323185       |
+| 8        | 3.517014e+06 | 21827.9940  | 3.283385    | 2956354.76   | 0.8405866       |
+| 9        | 1.249523e+07 | 83152.7736  | 6.635898    | 10288175.09  | 0.8233682       |
+| 11       | 3.057783e+02 | 125.0888    | 2.017949    | 0.00         | 0.0000000       |
+
+The landscape is composed of forest patches that vary greatly in size and shape, ranging from very small fragments (~300 m²) to large continuous areas (>12 million m²). Most patches are irregular in shape, indicating fragmented landscapes with strong edge effects. While larger patches (e.g., Patch 9) retain substantial core habitat (~82%), smaller patches (e.g., Patch 11) have no core area and are highly vulnerable to degradation.
+
+```{r example1}
 # Landscape metrics
 landscape_metrics <- analyze_landscape(patch_data)
+```
 
+## Landscape Metrics Summary with Interpretation
+
+
+| Metric | Value | Interpretation |
+|--------|------------------|-------------------------------|
+| NP (Number of Patches) | 47 | Moderate number of distinct landscape patches |
+| TA (Total Area) | 2.269839e+07 | Large overall landscape extent |
+| MPS (Mean Patch Size) | 4.829446e+05 | Relatively large average patch size |
+| PD (Patch Density) | 2.669083e-07 | Very low density, indicating sparse patch distribution |
+| ED (Edge Density) | 9.311574e-04 | Low edge complexity in the landscape |
+| FI (Fragmentation Index) | 9.865073e-03 | Very low fragmentation overall |
+| LPI (Largest Patch Index) | 0.5504896 | One dominant patch covers ~55% of landscape |
+| EAR (Edge Area Ratio) | 4.102305e-11 | Negligible edge influence relative to area |
+| PCI (Patch Cohesion Index) | 0.9927442 | Very high connectivity and structural cohesion |
+
+
+```{r example}
 # Connectivity analysis
 connectivity <- connectivity_analysis(patch_data)
 
