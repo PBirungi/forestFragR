@@ -75,7 +75,7 @@ visualize_patch_isolation(connectivity)
 This is the resulting patch isolation map
 
 <p align="center">
-  <img src="man/figures/patch_isolation_map.png" width="700"/>
+  <img src="man/figures/patch_isolation_map.png" width="300"/>
 </p>
 
 
